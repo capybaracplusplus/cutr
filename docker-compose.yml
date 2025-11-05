@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  cutr-app:
+    build: .
+    container_name: cutr-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - cutr-redis
+      - cutr-postgres
+    environment:
+      REDIS_HOST: cutr-redis
+      REDIS_PORT: 6379
+      POSTGRES_HOST: cutr-postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
+  cutr-postgres:
+    image: postgres:latest
+    container_name: cutr-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./migrations:/docker-entrypoint-initdb.d/
+
+  cutr-redis:
+    image: redis:latest
+    container_name: cutr-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes
+
+volumes:
+  pgdata:
+  redis_data:

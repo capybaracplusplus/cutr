@@ -1,0 +1,32 @@
+{
+  "db_clients": [
+    {
+      "name": "default",
+      "rdbms": "postgresql",
+      "host": "${DB_HOST}",
+      "port": ${DB_PORT},
+    "dbname": "postgres",
+    "user": "${DB_USER}",
+    "passwd": "${DB_PASS}",
+    "is_fast": true,
+    "connection_number": 4,
+    "filename": ""
+    }
+  ],
+  "log": {
+    "log_path": "./logs/",
+    "logfile_base_name": "auth_service",
+    "log_size_limit": 100000000,
+    "log_level": "INFO"
+  },
+  "listeners": [
+    {
+      "address": "${LISTEN_ADDR}",
+      "port": ${LISTEN_PORT},
+    "https": false,
+    "cert": "",
+    "key": ""
+    }
+  ],
+  "threads_num": 12
+}
