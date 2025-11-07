@@ -4,27 +4,23 @@ services:
   cutr-app:
     build: .
     container_name: cutr-app
+    restart: always
     ports:
       - "8080:8080"
+    env_file: .env
     depends_on:
       - cutr-redis
       - cutr-postgres
-    environment:
-      REDIS_HOST: cutr-redis
-      REDIS_PORT: 6379
-      POSTGRES_HOST: cutr-postgres
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
 
   cutr-postgres:
-    image: postgres:latest
+    image: postgres:16
     container_name: cutr-postgres
+    restart: always
+    env_file: .env
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -32,14 +28,19 @@ services:
       - ./migrations:/docker-entrypoint-initdb.d/
 
   cutr-redis:
-    image: redis:latest
+    image: redis:alpine
     container_name: cutr-redis
-    restart: always
+    restart: unless-stopped
+    command: redis-server --appendonly yes
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
-    command: redis-server --appendonly yes
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
 
 volumes:
   pgdata:
