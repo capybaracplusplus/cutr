@@ -39,8 +39,7 @@ namespace cutr {
         }
 
         static void initRedisClient() {
-            redisClient_ = drogon::nosql::RedisClient::newRedisClient(
-                    trantor::InetAddress("127.0.0.1", 6379), 10);
+            redisClient_ = drogon::nosql::RedisClient::newRedisClient(trantor::InetAddress("127.0.0.1", 6379), 10);
         }
 
         static void initRepositories() {
@@ -54,8 +53,7 @@ namespace cutr {
         }
 
         static void registerControllers() {
-            auto linkController = std::make_shared<LinkController>();
-            linkController->setServices(linkService_, redirectService_);
+            LinkController::setServices(linkService_, redirectService_);
         }
     };
 } // namespace cutr
