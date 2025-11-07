@@ -9,6 +9,10 @@ namespace cutr::service {
         explicit RedirectService(std::shared_ptr<cutr::ILinkRepository> postgresRepo,
                                  std::shared_ptr<cutr::ILinkRepository> redisRepo);
 
+        drogon::Task<std::optional<std::string> > getOriginalUrl(const std::string &shortCode);
+
+        drogon::Task<void> incrementHits(const std::string &shortCode);
+
     private:
         std::shared_ptr<ILinkRepository> redisRepo_;
         std::shared_ptr<ILinkRepository> postgresRepo_;
