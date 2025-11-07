@@ -10,6 +10,7 @@
 #include <services/link_service.h>
 #include <services/redirect_service.h>
 #include <controllers/link_controller.h>
+#include <app_config.h>
 
 namespace cutr {
     class AppFactory {
@@ -35,11 +36,19 @@ namespace cutr {
     private:
         static void initDbClient() {
             dbClient_ = drogon::orm::DbClient::newPgClient(
-                    "dbname=cutr user=postgres password=postgres host=127.0.0.1 port=5432", 10);
+                    "dbname=" + AppConfig::dbName() +
+                    " user=" + AppConfig::dbUser() +
+                    " password=" + AppConfig::dbPass() +
+                    " host=" + AppConfig::dbHost() +
+                    " port=" + std::to_string(AppConfig::dbPort()),
+                    10
+            );
         }
 
         static void initRedisClient() {
-            redisClient_ = drogon::nosql::RedisClient::newRedisClient(trantor::InetAddress("127.0.0.1", 6379), 10);
+            redisClient_ = drogon::nosql::RedisClient::newRedisClient(
+                    trantor::InetAddress(AppConfig::redisHost(), AppConfig::redisPort()), 10
+            );
         }
 
         static void initRepositories() {
