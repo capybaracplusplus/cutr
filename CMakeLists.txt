@@ -31,3 +31,4 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 # <----------------------------- External Libraries ----------------------------->
 include(cmake/drogon.cmake)
+include(cmake/dotenv.cmake)
