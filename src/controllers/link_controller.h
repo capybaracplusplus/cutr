@@ -9,7 +9,7 @@ class LinkController : public drogon::HttpController<LinkController> {
 public:
     METHOD_LIST_BEGIN
         ADD_METHOD_TO(LinkController::createShortLink, "/shorten", drogon::Post);
-        ADD_METHOD_TO(LinkController::redirectToOriginal, "/{hash}", drogon::Get, "hash");
+        ADD_METHOD_TO(LinkController::redirectToOriginal, "/{hash}", drogon::Get);
     METHOD_LIST_END
 
     static void setServices(std::shared_ptr<cutr::service::LinkService> link,

@@ -27,6 +27,9 @@ namespace cutr {
 
         virtual drogon::Task<void>
         incrementHits(const std::string &shortCode) = 0;
+
+        virtual drogon::Task<std::optional<std::string>>
+        getShortCodeByOriginalUrl(const std::string &originalUrl) = 0;
     };
 
 } // namespace cutr

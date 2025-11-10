@@ -24,6 +24,8 @@ namespace cutr::redis {
 
         drogon::Task<void> incrementHits(const std::string &shortCode) override;
 
+        drogon::Task<std::optional<std::string>> getShortCodeByOriginalUrl(const std::string &originalUrl) override;
+
     private:
         static constexpr const char *URL_PREFIX = "link:url:";
 

@@ -100,4 +100,24 @@ namespace cutr::postgres {
         LOG_ERROR << "Unknown error in LinkRepository::incrementHits";
         co_return;
     }
+
+    drogon::Task<std::optional<std::string>> LinkRepository::getShortCodeByOriginalUrl(
+            const std::string &originalUrl) try {
+        auto result = co_await dbClient_->execSqlCoro(
+                "SELECT short_code FROM links WHERE original_url = $1",
+                originalUrl
+        );
+
+        if (result.empty()) {
+            co_return std::nullopt;
+        }
+
+        co_return result[0]["short_code"].as<std::string>();
+    } catch (const std::exception &e) {
+        LOG_ERROR << "Postgres error in LinkRepository::getShortCodeByOriginalUrl: " << e.what();
+        co_return std::nullopt;
+    } catch (...) {
+        LOG_ERROR << "Unknown error in LinkRepository::getShortCodeByOriginalUrl";
+        co_return std::nullopt;
+    }
 } // namespace cutr::postgres

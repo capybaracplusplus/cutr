@@ -101,4 +101,21 @@ namespace cutr::redis {
     std::string LinkRepository::makeHitsKey(const std::string &shortCode) {
         return std::string(HITS_PREFIX) + shortCode;
     }
+
+    drogon::Task<std::optional<std::string>> LinkRepository::getShortCodeByOriginalUrl(
+            const std::string &originalUrl) try {
+        auto result = co_await redisClient_->execCommandCoro("HGET ORIGINAL_TO_SHORT %s", originalUrl.c_str());
+
+        if (result.isNil()) {
+            co_return std::nullopt;
+        }
+
+        co_return result.asString();
+    } catch (const std::exception &e) {
+        LOG_ERROR << "Redis error in LinkRepository::getShortCodeByOriginalUrl: " << e.what();
+        co_return std::nullopt;
+    } catch (...) {
+        LOG_ERROR << "Unknown error in LinkRepository::getShortCodeByOriginalUrl";
+        co_return std::nullopt;
+    }
 } // namespace cutr::redis

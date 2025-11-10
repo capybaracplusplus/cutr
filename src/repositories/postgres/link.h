@@ -22,6 +22,8 @@ namespace cutr::postgres {
 
         drogon::Task<void> incrementHits(const std::string &shortCode) override;
 
+        drogon::Task<std::optional<std::string>> getShortCodeByOriginalUrl(const std::string &originalUrl) override;
+
     private:
         drogon::orm::DbClientPtr dbClient_;
     };
