@@ -11,7 +11,7 @@ void LinkController::setServices(std::shared_ptr<cutr::service::LinkService> lin
 
 
 drogon::Task<drogon::HttpResponsePtr> LinkController::createShortLink(
-        const drogon::HttpRequestPtr &req) {
+        drogon::HttpRequestPtr req) {
     auto jsonReq = req->getJsonObject();
     if (!jsonReq || !(*jsonReq)["url"].isString()) {
         co_return drogon::HttpResponse::newHttpJsonResponse(
@@ -28,7 +28,7 @@ drogon::Task<drogon::HttpResponsePtr> LinkController::createShortLink(
 }
 
 drogon::Task<drogon::HttpResponsePtr> LinkController::redirectToOriginal(
-        const drogon::HttpRequestPtr &req,
+        drogon::HttpRequestPtr req,
         const std::string &hash) {
     auto urlOpt = co_await redirectService_->getOriginalUrl(hash);
 
