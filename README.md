@@ -46,7 +46,7 @@ curl -X POST http://localhost:8080/shorten \
 #### Example response:
 ```json
 {
-    "shortCode": "http://localhost:8080/r/AbC123"
+    "shortCode": "http://localhost:8080/AbC123"
 }
 ```
 
