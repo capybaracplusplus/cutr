@@ -24,9 +24,9 @@ RUN apt-get update && \
         lsb-release && \
     rm -rf /var/lib/apt/lists/*
 
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.27.7/cmake-3.27.7-linux-x86_64.sh && \
-    bash cmake-3.27.7-linux-x86_64.sh --skip-license --prefix=/usr/local && \
-    rm cmake-3.27.7-linux-x86_64.sh
+RUN wget https://github.com/Kitware/CMake/releases/download/v4.1.2/cmake-4.1.2-linux-x86_64.sh \
+    && bash cmake-4.1.2-linux-x86_64.sh --skip-license --prefix=/usr/local \
+    && rm cmake-4.1.2-linux-x86_64.sh
 
 WORKDIR /opt
 RUN git clone --branch v1.9.11 --recurse-submodules https://github.com/drogonframework/drogon.git && \
