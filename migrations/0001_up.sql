@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS schema_migrations (
+    migration_id SERIAL PRIMARY KEY,
+    migration_version VARCHAR(255) NOT NULL UNIQUE,
+    applied_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
