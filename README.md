@@ -110,6 +110,7 @@ Create a `.env` file in the project root:
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 POSTGRES_DB=cutr
+POSTGRES_HOST=127.0.0.1
 DB_PORT=5432
 
 REDIS_HOST=cutr-redis
