@@ -1,7 +1,0 @@
-.idea
-.env
-config.json
-cmake-build-debug
-logs
-_deps
-./public/uploads
