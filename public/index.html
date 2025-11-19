@@ -98,32 +98,6 @@
             background: #fff;
             border: 1px solid #e6e7eb;
         }
-        .examples {
-            margin-top: 14px;
-            background: #0f1724;
-            color: #e6eef8;
-            padding: 12px;
-            border-radius: 10px;
-            font-family: monospace;
-            font-size: 13px;
-            white-space: pre-wrap;
-            line-height: 1.5;
-        }
-        .small {
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 10px;
-        }
-        .flex-between {
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            gap:12px;
-        }
-        .actions {
-            display:flex;
-            gap:8px;
-        }
         @media (max-width:520px){
             .row { flex-direction: column; }
         }
@@ -133,7 +107,7 @@
 <div class="wrap">
     <div class="card" role="main">
         <h1>CUTR — URL shortener</h1>
-        <p class="lead">Paste a long URL, press Enter or the button. The service responds with a short code and a redirect endpoint.</p>
+        <p class="lead">Paste a long URL, press Enter or the button. The service responds with a short code.</p>
 
         <div class="row" style="align-items:center;">
             <div class="col">
@@ -147,17 +121,9 @@
         <div id="result" class="result" aria-live="polite">
             <div class="short">
                 <input id="shortLink" type="text" readonly />
-                <div class="actions">
-                    <button class="ghost" id="openBtn">Open</button>
-                    <button class="ghost" id="copyBtn">Copy</button>
-                </div>
+                <button class="ghost" id="copyBtn">Copy</button>
             </div>
-
-            <div class="small">Example API request & response (auto-updates):</div>
-            <div id="examples" class="examples"></div>
         </div>
-
-        <div class="small">Server endpoint used: <code>/shorten (POST)</code>. Redirect: <code>/{shortCode}</code></div>
     </div>
 </div>
 
@@ -166,24 +132,7 @@
     const shortenBtn = document.getElementById('shortenBtn');
     const resultBox = document.getElementById('result');
     const shortLinkField = document.getElementById('shortLink');
-    const examples = document.getElementById('examples');
     const copyBtn = document.getElementById('copyBtn');
-    const openBtn = document.getElementById('openBtn');
-
-    // helper: show examples (curl + response)
-    function renderExamples(shortCode, original) {
-        const host = window.location.origin || 'http://localhost:8080';
-        const shortFull = shortCode ? `${host}/${shortCode}` : `${host}/<short-code>`;
-        const curl = `curl -X POST ${host}/shorten \\\n  -H "Content-Type: application/json" \\\n  -d '{"url": "${original || 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'}"}'`;
-        const response = shortCode
-            ? `{\n  "shortCode": "${shortCode}"\n}`
-            : `{\n  "shortCode": "AbC123"\n}`;
-        const redirectExample = `curl ${shortFull} -i\n# Response:\n# HTTP/1.1 302 Found\n# Location: ${original || 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'}`;
-        examples.textContent = curl + '\n\n' + response + '\n\n' + redirectExample;
-    }
-
-    // initial examples
-    renderExamples(null);
 
     async function shorten() {
         const url = originalInput.value.trim();
@@ -215,12 +164,9 @@
                 return;
             }
 
-            // put short link and show examples
             const host = window.location.origin || (location.protocol + '//' + location.hostname + (location.port ? ':'+location.port : ''));
-            const shortFull = `${host}/${code}`;
-            shortLinkField.value = shortFull;
+            shortLinkField.value = `${host}/${code}`;
             resultBox.style.display = 'block';
-            renderExamples(code, url);
 
         } catch (err) {
             console.error(err);
@@ -231,7 +177,6 @@
         }
     }
 
-    // events
     shortenBtn.addEventListener('click', shorten);
     originalInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') shorten();
@@ -245,23 +190,12 @@
             copyBtn.textContent = 'Copied';
             setTimeout(() => copyBtn.textContent = 'Copy', 1200);
         } catch (e) {
-            // fallback: select + execCommand
             shortLinkField.select();
             document.execCommand('copy');
             copyBtn.textContent = 'Copied';
             setTimeout(() => copyBtn.textContent = 'Copy', 1200);
         }
     });
-
-    openBtn.addEventListener('click', () => {
-        const v = shortLinkField.value;
-        if (!v) return;
-        window.open(v, '_blank');
-    });
-
-    // prefill with example YouTube link for convenience
-    originalInput.value = '';
-    renderExamples(null, originalInput.value);
 </script>
 </body>
 </html>
