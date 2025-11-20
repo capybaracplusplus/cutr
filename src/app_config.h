@@ -17,7 +17,7 @@ namespace cutr {
 
         static std::string dbPass() { return getEnvOrThrow("POSTGRES_PASSWORD"); }
 
-        static std::string dbHost() { return "POSTGRES_HOST"; }
+        static std::string dbHost() { return getEnvOrThrow("POSTGRES_HOST"); }
 
         static int dbPort() { return std::stoi(getEnvOrThrow("DB_PORT")); }
 
