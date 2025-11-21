@@ -6,7 +6,7 @@
 namespace cutr::utils {
     class Shortener {
     public:
-        static std::string generate(const std::string &input);
+        static std::string generate();
     };
 } // namespace utils
 

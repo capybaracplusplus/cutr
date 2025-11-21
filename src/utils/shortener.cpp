@@ -2,7 +2,7 @@
 #include <random>
 #include <string>
 
-std::string cutr::utils::Shortener::generate(const std::string &input) {
+std::string cutr::utils::Shortener::generate() {
     static constexpr char charset[] =
             "0123456789"
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
