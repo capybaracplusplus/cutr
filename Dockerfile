@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     uuid-dev \
     zlib1g-dev \
+    libjsoncpp-dev \
+    doxygen \
     libssl-dev \
     libpq-dev \
     libhiredis-dev \
@@ -14,6 +16,10 @@ RUN apt-get update && apt-get install -y \
     cmake \
     python3 \
     && rm -rf /var/lib/apt/lists/*
+
+RUN wget https://github.com/Kitware/CMake/releases/download/v4.1.2/cmake-4.1.2-linux-x86_64.sh \
+    && bash cmake-4.1.2-linux-x86_64.sh --skip-license --prefix=/usr/local \
+    && rm cmake-4.1.2-linux-x86_64.sh
 
 WORKDIR /opt
 RUN git clone --branch v1.9.11 --recurse-submodules https://github.com/drogonframework/drogon.git && \
