@@ -1,10 +1,4 @@
 {
-  "log": {
-    "log_path": "/var/log/cutr_app/",
-    "logfile_base_name": "cutr_service",
-    "log_size_limit": 100000000,
-    "log_level": "INFO"
-  },
   "listeners": [
     {
       "address": "${LISTEN_ADDR}",
@@ -14,5 +8,8 @@
     "key": ""
     }
   ],
+  "app": {
+    "document_root": "../public/"
+  },
   "threads_num": 12
 }
